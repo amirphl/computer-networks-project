@@ -18,7 +18,7 @@ public class Main {
                     Receiver receiver = new Receiver();
                     try {
                         byte[] content = receiver.download(args[2]);
-                        System.out.printf("Content of file " + args[2]);
+                        System.out.println("Content of file " + args[2]);
                         System.out.println(new String(content, "UTF-8"));
                     } catch (IOException e) {
                         e.printStackTrace();
