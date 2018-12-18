@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 
 /**
  * Implementing a peer(server) for sending file to other peers.
+ * It is implemented like a FIFO queue.
  * Created by amirphl on 12/17/2018.
  */
 public class Sender extends Thread {

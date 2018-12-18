@@ -8,6 +8,9 @@ import java.net.SocketException;
  * args[3]      filename
  * args[4]      -path
  * args[5]      path_to_file
+ * examples:
+ * p2p -serve -name hello.txt -path /home/amirphl/hello.txt ( server side )
+ * p2p -receive hello.txt ( client side )
  * Created by amirphl on 12/17/2018.
  */
 public class Main {
