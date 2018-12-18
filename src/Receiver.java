@@ -8,17 +8,17 @@ import java.util.Comparator;
  * Implementing a receiver peer(client)
  * Created by amirphl on 12/17/2018.
  */
-public class Receiver {
+class Receiver {
     private DatagramSocket ds = new DatagramSocket(Constraints.RECEIVE_PORT);
     private ArrayList<byte[]> data = new ArrayList<>();
 
-    public Receiver() throws SocketException {
+    Receiver() throws SocketException {
     }
 
-    public byte[] download(String filename) throws IOException {
+    byte[] download(String filename) throws IOException {
         InetAddress address = InetAddress.getByName(Constraints.BROAD_CAST_IP);
         ds.setBroadcast(true);
-        ds.connect(address, Constraints.SEND_PORT);
+//        ds.connect(address, Constraints.SEND_PORT);
         byte[] filename_bytes = filename.getBytes();
         byte[] request = new byte[filename_bytes.length + 1];
         request[0] = (byte) filename.getBytes().length;
@@ -57,8 +57,14 @@ public class Receiver {
     private byte[] append(int total_size) {
         byte[] result = new byte[total_size];
         int counter = 0;
-        for (byte[] datum : data)
-            System.arraycopy(datum, 5, result, (counter++) * (Constraints.PACKET_SIZE - 5), Constraints.PACKET_SIZE - 5);
+        for (byte[] datum : data) {
+            if (counter * (Constraints.PACKET_SIZE - 5) + Constraints.PACKET_SIZE - 5 > total_size) {
+                System.arraycopy(datum, 5, result, counter * (Constraints.PACKET_SIZE - 5), total_size - counter * (Constraints.PACKET_SIZE - 5));
+                break;
+            }
+            System.arraycopy(datum, 5, result, counter * (Constraints.PACKET_SIZE - 5), Constraints.PACKET_SIZE - 5);
+            counter++;
+        }
         return result;
     }
 
