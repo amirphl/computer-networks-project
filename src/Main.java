@@ -1,4 +1,4 @@
-import java.io.IOException;
+import java.io.*;
 import java.net.SocketException;
 
 /**
@@ -21,8 +21,17 @@ public class Main {
                     Receiver receiver = new Receiver();
                     try {
                         byte[] content = receiver.download(args[2]);
-                        System.out.println("Content of file " + args[2]);
-                        System.out.println(new String(content, "UTF-8"));
+//                        System.out.println("Content of file " + args[2]);
+//                        System.out.println(new String(content, "UTF-8"));
+                        if (new StringBuilder(args[2]).reverse().toString().indexOf("txt.") == 0) {
+                            FileWriter fw = new FileWriter(new File(args[2]));
+                            fw.write(new String(content, "UTF-8"));
+                            fw.close();
+                        } else {
+                            BufferedOutputStream bs = new BufferedOutputStream(new FileOutputStream(new File(args[2])));
+                            bs.write(content);
+                            bs.flush();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

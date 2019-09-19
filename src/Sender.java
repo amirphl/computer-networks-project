@@ -58,6 +58,7 @@ public class Sender extends Thread {
             System.arraycopy(size_array, 0, buffer, 1, 4);
             DatagramPacket dp = new DatagramPacket(buffer, 0, buffer.length, receiver_address, port);
             ds.send(dp);
+            System.out.println("offset " + buffer[0]);
         }
     }
 
